@@ -20,8 +20,6 @@ You will be prompted to logon using the username `admin` and the password value 
 
 The video will stream after successfully authenticating.
 
-Next Step: [Configure motionplus as a service](motionplus-service.md)
-
 Terminate the motionplus service using `cttl-c`
 
 Next Step: [Configure MotionPlus as a System Service](./motionplus-service.md)
