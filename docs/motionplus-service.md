@@ -1,0 +1,108 @@
+# Configure MotionPlus as a System Service
+
+## Step 1 - Create a motionplus service configuration
+Create a new motionplus service configuration file in `/etc/systemd/system/` called `/etc/systemd/system/motionplus.service`
+
+```bash
+sudo vi /etc/systemd/system/motionplus.service
+```
+
+Paste the sample service configuration below.
+
+
+```ini
+#
+# This systemd unit file is part of the motion project:
+#
+# https://motion-project.github.io/
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of version 2 of the GNU General Public License as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this program.  If not, see
+# <https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+#
+
+[Unit]
+Description=MotionPlus - monitor live video, trigger responses, record video/stills.
+Documentation=man:motionplus(1)
+After=local-fs.target network.target
+
+[Service]
+User=motion
+EnvironmentFile=-/etc/default/motion
+ExecStart=/bin/sh -c '/usr/local/bin/motionplus -c /etc/motionplus/motionplus.conf'
+#Type=simple
+Type=exec
+# Set StandardError=journal to use journald to log messages from motion.
+# See also the "log_file" config file option in motion(1) and
+# systemd.service(5).
+PIDFile=/var/log/motionplus/motionplus.pid
+StandardError=null
+ExecReload=@KILL@ -HUP $MAINPID
+Restart=on-failure
+RestartSec=5
+# Don't restart if unconfigured / misconfigured  e.g. daemon disabled
+# in defaults file.  See also /usr/include/sysexits.h or sysexits(3)
+RestartPreventExitStatus=78
+# To tune restart behaviour, see systemd.unit(5) and use
+# "systemctl edit motion" to change the following settings:
+#StartLimitBurst=
+#StartLimitIntervalSec=
+#StartLimitAction=
+#FailureAction=
+
+# The following can be used to increase the security of the
+# installation, by mitigating risk from attacks on motion and the
+# binaries, libraries and scripts which it relies on.  They are disabled
+# by default in case they break existing installations, e.g. those which
+# call site-local scripts which would inherit the same restrictions.
+#
+# See systemd.exec(5) and
+# http://0pointer.net/public/systemd-nluug-2014.pdf for more details
+# of these and other related options.
+#
+# Use "systemctl edit motion" to change these settings.
+#PrivateTmp=true
+#NoNewPrivileges=yes
+#PrivateNetwork=yes
+#ProtectHome=yes
+#DeviceAllow=/dev/video0
+#MountFlags=slave
+#SystemCallFilter=
+
+[Install]
+WantedBy=multi-user.target
+```
+
+## Step 2 - Update systemctl to load the new service configuration
+
+```bash
+sudo systemctl daemon-reload
+```
+
+## Step 3 - Enable the motionplus service
+
+```bash
+sudo systemctl enable motionplus.service
+```
+
+## Step 4 - Start the motionplus service
+
+```bash
+sudo systemctl start motionplus.service
+```
+
+## Step 5 (optional) - Stop the motionplus service
+
+```bash
+sudo systemctl stop motionplus.service
+```
+Next Step: [Configure Automated File Cleanup (optional)](./auto-file-cleanup.md)
