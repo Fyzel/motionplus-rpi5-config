@@ -23,9 +23,10 @@ sudo mkdir -p /home/motion && sudo chown motion:motion /home/motion/ && sudo chm
 ln -s /home/motion /home/pi/Videos/cctv
 ```
 
-## Step 4 - Add `motion` and `pi` users to the `motion` group.
+## Step 4 - Add `motion` and `pi` users to the `motion` group. Add the `motion` user to the `video` group to access the camera hardware.
 ```bash
 sudo usermod -a -G motion pi
+sudo usermod -a -G video motion
 sudo usermod -a -G motion motion
 ```
 
