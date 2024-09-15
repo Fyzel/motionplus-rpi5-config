@@ -16,4 +16,6 @@ The following is the hardware configuration used with these instructions.
   - [Installation instructions](https://datasheets.raspberrypi.com/cooling/raspberry-pi-active-cooler-product-brief.pdf)
 - [Camera Cable for Raspberry Pi 5](https://www.pishop.ca/product/camera-cable-for-raspberry-pi-5/)
 
+Optional Next Step: [Secure mariadb and Configure](./mariadb.md)
+
 Next Step: [Install MotionPlus](./install-motionplus.md)
