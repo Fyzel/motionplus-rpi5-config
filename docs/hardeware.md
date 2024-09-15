@@ -18,4 +18,4 @@ The following is the hardware configuration used with these instructions.
 
 Optional Next Step: [Secure mariadb and Configure](./mariadb.md)
 
-Next Step: [Install MotionPlus](./install-motionplus.md)
+Next Step: [Secure mariadb and Configure (optional)](./mariadb.md)
